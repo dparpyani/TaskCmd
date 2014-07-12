@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "task":"bin/taskcmd.js"
+    "task": "bin/taskcmd.js"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,8 @@
   "license": "MIT",
   "dependencies": {
     "colors": "~0.6.0-1",
+    "minimist": "^0.2.0",
+    "nedb": "^0.10.6",
     "open": "0.0.3"
   }
 }
