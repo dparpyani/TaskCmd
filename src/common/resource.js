@@ -5,5 +5,7 @@ module.exports = {
     alreadyInitialized: 'This project has already been initialized before.',
     notInitialized: 'This project has not been initialized yet.',
     badCommand: 'Invalid command.',
-    badParameters: 'Invalid parameters.'
+    badParameters: 'Invalid or missing parameters.',
+    addSuccessful: 'Task was successfully created.',
+    noTasksFound: 'No tasks were found.'
 };

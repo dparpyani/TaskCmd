@@ -20,7 +20,12 @@ module.exports.run = function(cmd, params) {
     if (callback == null) {
         common.terminal.error(common.resource.badCommand);
     } else {
-        common.terminal.debug('Running \'' + cmd + '\' with params: ' + params.join(', '));
+        if (params.length == 0) {
+            common.terminal.debug('Running \'' + cmd + '\'')
+        } else {
+            common.terminal.debug('Running \'' + cmd + '\' with params: ' + params.join(', '));
+        }
+
         callback(params);
     }
 };
