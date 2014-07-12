@@ -33,7 +33,7 @@ module.exports.run = function(cmd, params) {
 
 // Register all supported commands
 registerCommand('init', init.run);
-registerCommand('add', add.run);
-registerCommand('remove', remove.run);
-registerCommand('list', list.run);
+registerCommand(['add', 'new'], add.run);
+registerCommand(['rm', 'remove'], remove.run);
+registerCommand(['ls', 'list'], list.run);
 registerCommand('help', help.run);
