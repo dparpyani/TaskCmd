@@ -5,35 +5,36 @@ var remove = require('./remove');
 var list = require('./list');
 var help = require('./help');
 
-var registeredCommands = [];
-function registerCommand(names, callback) {
-    registeredCommands.push({
-        names: names,
-        callback: callback
-    });
-}
+module.exports.registeredCommands = [];
 
 // Runs the command with the specified parameters
 module.exports.run = function(cmd, params) {
     var callback = null;
-    registeredCommands.forEach(function (rcmd) {
-        if ((typeof(rcmd.names) == 'string' && rcmd.names == cmd) || rcmd.names.indexOf(cmd) != -1)
+    module.exports.registeredCommands.forEach(function (rcmd) {
+        if (rcmd.aliases.indexOf(cmd) != -1)
         {
             callback = rcmd.callback;
         }
     });
 
     if (callback == null) {
-        common.terminal.error(common.resource.commandNotFound);
+        common.terminal.error(common.resource.badCommand);
     } else {
-        common.terminal.debug('Running \'' + cmd + '\' with params: ' + params);
+        common.terminal.debug('Running \'' + cmd + '\' with params: ' + params.join(', '));
         callback(params);
     }
 };
 
+function registerCommand(aliases, callback) {
+    module.exports.registeredCommands.push({
+        aliases: aliases,
+        callback: callback
+    });
+}
+
 // Register all supported commands
-registerCommand('init', init.run);
+registerCommand(['init'], init.run);
 registerCommand(['add', 'new'], add.run);
 registerCommand(['rm', 'remove'], remove.run);
 registerCommand(['ls', 'list'], list.run);
-registerCommand('help', help.run);
+registerCommand(['help'], help.run);

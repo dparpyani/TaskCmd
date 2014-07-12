@@ -19,10 +19,18 @@ function upwardSearch(item, cwd, prev) {
 
 // Find the path to the data store
 module.exports.find = function() {
-    var result = upwardSearch(taskcmd.datastore, process.cwd());
+    var result = upwardSearch(taskcmd.dir, process.cwd());
     if (result == null) {
-        common.terminal.error(common.resource.datastoreNotFound);
+        common.terminal.error(common.resource.notInitialized);
     } else {
+        common.terminal.debug('Data store found at: ' + result);
         return result;
     }
 }
+
+// Create data store directory
+module.exports.create = function() {
+    var datastorePath = path.join(process.cwd(), taskcmd.dir);
+    fs.mkdirSync(datastorePath);
+    return datastorePath;
+};
