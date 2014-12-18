@@ -1,3 +1,5 @@
-module.exports.run = function(params) {
+var output = require('../output');
+
+module.exports.run = function(params, storage) {
 
 };

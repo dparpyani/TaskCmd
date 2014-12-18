@@ -1,19 +1,14 @@
-var common = require('../common');
-var datastore = require('../datastore');
+var output = require('../output');
 
-module.exports.run = function(params) {
+module.exports.run = function(params, storage) {
     if (params.length > 0) {
-        common.terminal.error(common.resource.badParameters);
+        output.error('Invalid parameters: Init command takes 0 parameters.');
     }
 
     try {
-        var datastorePath = datastore.create();
-        common.terminal.print(common.resource.initializedAt(datastorePath));
+        var dirPath = storage.init();
+        output.print('Initialized project at ' + dirPath);
     } catch (err) {
-        if (err.code == 'EEXIST') { // Data store already exists
-            common.terminal.error(common.resource.alreadyInitialized);
-        } else {
-            throw err;
-        }
+        output.error('Initialization failed: ' + err.message);
     }
 };

@@ -1,12 +1,13 @@
-var common = require('../common');
-var tasks = require('../tasks');
+var output = require('../output');
 
-module.exports.run = function(params) {
-    tasks.getAll(function (tasks) {
+module.exports.run = function(params, storage) {
+    storage.get(null, function (tasks) {
         if (tasks.length > 0) {
-            common.terminal.printTasks(tasks);
+            tasks.forEach(function(task) {
+                output.printTask(task);
+            });
         } else {
-            common.terminal.print(common.resource.noTasksFound);
+            output.print('No tasks found.');
         }
     });
 };

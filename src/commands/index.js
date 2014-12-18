@@ -1,45 +1,47 @@
-var common = require('../common');
-var init = require('./init');
-var add = require('./add');
-var remove = require('./remove');
-var list = require('./list');
-var help = require('./help');
-
-module.exports.registeredCommands = [];
-
-// Runs the command with the specified parameters
-module.exports.run = function(cmd, params) {
-    var callback = null;
-    module.exports.registeredCommands.forEach(function (rcmd) {
-        if (rcmd.aliases.indexOf(cmd) != -1)
-        {
-            callback = rcmd.callback;
-        }
-    });
-
-    if (callback == null) {
-        common.terminal.error(common.resource.badCommand);
-    } else {
-        if (params.length == 0) {
-            common.terminal.debug('Running \'' + cmd + '\'')
-        } else {
-            common.terminal.debug('Running \'' + cmd + '\' with params: ' + params.join(', '));
-        }
-
-        callback(params);
-    }
+var output = require('../output');
+var commands = {
+    init: require('./init'),
+    add: require('./add'),
+    remove: require('./remove'),
+    list: require('./list'),
+    help: require('./help')
 };
 
-function registerCommand(aliases, callback) {
-    module.exports.registeredCommands.push({
+var registeredCommands = [];
+
+function registerCommand(aliases, runner) {
+    registeredCommands.push({
         aliases: aliases,
-        callback: callback
+        runner: runner
     });
 }
 
 // Register all supported commands
-registerCommand(['init'], init.run);
-registerCommand(['add', 'new'], add.run);
-registerCommand(['rm', 'remove'], remove.run);
-registerCommand(['ls', 'list'], list.run);
-registerCommand(['help'], help.run);
+registerCommand(['init'], commands.init.run);
+registerCommand(['add', 'new'], commands.add.run);
+registerCommand(['rm', 'remove'], commands.remove.run);
+registerCommand(['ls', 'list'], commands.list.run);
+registerCommand(['help'], commands.help.run);
+
+// Runs a command with the specified parameters and storage engine
+module.exports.run = function(cmd, params, storage) {
+    var runner = null;
+    registeredCommands.forEach(function (rcmd) {
+        if (rcmd.aliases.indexOf(cmd) != -1)
+        {
+            runner = rcmd.runner;
+        }
+    });
+
+    if (runner == null) {
+        output.error('Invalid command.');
+    } else {
+        if (params.length == 0) {
+            output.debug('Running \'' + cmd + '\'');
+        } else {
+            output.debug('Running \'' + cmd + '\' with params: ' + params.join(', '));
+        }
+
+        runner(params, storage);
+    }
+};

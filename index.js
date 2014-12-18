@@ -4,6 +4,9 @@
 
 var config = require('./src/config');
 var commands = require('./src/commands');
+var LocalStorage = require('./src/storage/local');
+var output = require('./src/output');
+var storage = new LocalStorage('.taskcmd', 'tasks.db');
 
 // Get command name and parameters from command line arguments
 var cmd = process.argv[2];
@@ -12,10 +15,9 @@ var params = process.argv.slice(3);
 // Default to 'help' command
 if (!cmd) { cmd = 'help'; }
 
-// Initialize environment (an error will be thrown if the project has not been initialized yet)
-if (cmd != 'init') {
-    config.init();
+// Check storage initialization
+if (cmd == 'init' || storage.isInitialized()) {
+    commands.run(cmd.toLowerCase(), params, storage);
+} else {
+    output.error('Not Initialized yet.')
 }
-
-// Run the command with specified parameters
-commands.run(cmd.toLowerCase(), params);
