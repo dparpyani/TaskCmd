@@ -38,26 +38,32 @@ LocalStorage.prototype.init = function() {
     return dirPath;
 };
 
-LocalStorage.prototype.create = function(item, callback) {
-    this.db.insert(item, function (err, newItem) {
-        if (err) { throw err; }
+LocalStorage.prototype.insert = function(item, callback) {
+    this.db.insert(item, function(err, newItem) {
+        if (err) { throw Error(err.message); }
         return callback(newItem);
     });
 };
 
-LocalStorage.prototype.delete = function(id, callback) {
-
+LocalStorage.prototype.remove = function(query, options, callback) {
+    this.db.remove(query, options, function (err, numRemoved) {
+        if (err) { throw Error(err.message); }
+        return callback(numRemoved);
+    });
 };
 
-LocalStorage.prototype.get = function(id, callback) {
-    if (!id) {
-        this.db.find({}, function (err, tasks) {
-            if (err) { throw err; }
-            return callback(tasks);
-        });
-    } else {
+LocalStorage.prototype.find = function(query, sort, callback) {
+    this.db.find(query).sort(sort).exec(function(err, tasks) {
+        if (err) { throw Error(err.message); }
+        return callback(tasks);
+    });
+};
 
-    }
+LocalStorage.prototype.count = function(query, callback) {
+    this.db.count(query, function(err, count) {
+        if (err) { throw Error(err.message); }
+        return callback(count);
+    });
 };
 
 module.exports = LocalStorage;

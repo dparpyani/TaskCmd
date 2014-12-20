@@ -26,9 +26,10 @@
   "author": "Deepak Parpyani",
   "license": "MIT",
   "dependencies": {
-    "colors": "~0.6.0-1",
-    "minimist": "^0.2.0",
-    "nedb": "^0.10.6",
-    "open": "0.0.3"
+    "colors": "^1.0.3",
+    "moment": "^2.8.4",
+    "nedb": "^1.0.0",
+    "open": "0.0.3",
+    "sprintf-js": "^1.0.2"
   }
 }

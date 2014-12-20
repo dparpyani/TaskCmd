@@ -19,7 +19,7 @@ function registerCommand(aliases, runner) {
 // Register all supported commands
 registerCommand(['init'], commands.init.run);
 registerCommand(['add', 'new'], commands.add.run);
-registerCommand(['rm', 'remove'], commands.remove.run);
+registerCommand(['rm', 'remove', 'delete'], commands.remove.run);
 registerCommand(['ls', 'list'], commands.list.run);
 registerCommand(['help'], commands.help.run);
 

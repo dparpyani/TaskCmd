@@ -7,11 +7,11 @@ module.exports.run = function(params, storage) {
         completed: null
     }
 
-    if (!description) {
+    if (!task.description) {
         output.error('Task description cannot be empty.');
     }
 
-    storage.create(task, function(newTask) {
-        output.print('Task was successfully created.');
+    storage.insert(task, function(newTask) {
+        output.info('Task was successfully created.');
     });
 };
