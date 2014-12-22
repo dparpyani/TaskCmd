@@ -4,7 +4,7 @@ module.exports.run = function(params, storage) {
     var task = {
         description: params.join(' ').trim(),
         created: new Date(),
-        completed: null
+        completed: false
     }
 
     if (!task.description) {
