@@ -7,7 +7,7 @@ module.exports.run = function(params, storage) {
 
     try {
         var dirPath = storage.init();
-        output.info('Initialized project at ' + dirPath);
+        output.info('Initialized task database at ' + dirPath);
     } catch (err) {
         output.error('Initialization failed: ' + err.message);
     }
