@@ -1,10 +1,15 @@
 var common = require('./common');
 var DataStore = require('nedb');
+var fs = require('fs');
 var path = require('path');
 var output = require('../../output');
 
 function GetDb(path) {
-    return new DataStore({ filename: path, autoload: true });
+    if (fs.existsSync(path)){
+        return new DataStore({ filename: path, autoload: true });
+    } else {
+        throw new Error('No task database exists at path: ' + path);
+    }
 }
 
 var LocalStorage = function(dirname, filename) {
