@@ -36,12 +36,17 @@ module.exports.run = function(cmd, params, storage) {
     if (runner == null) {
         output.error('Invalid command.');
     } else {
-        if (params.length == 0) {
-            output.debug('Running \'' + cmd + '\'');
-        } else {
-            output.debug('Running \'' + cmd + '\' with params: ' + params.join(', '));
-        }
+        // Check storage initialization for all commands except init and help
+        if (cmd == 'init' || cmd == 'help' || storage.isInitialized()) {
+            if (params.length == 0) {
+                output.debug('Running \'' + cmd + '\'');
+            } else {
+                output.debug('Running \'' + cmd + '\' with params: ' + params.join(', '));
+            }
 
-        runner(params, storage);
+            runner(params, storage);
+        } else {
+            output.error('Not Initialized yet.')
+        }
     }
 };

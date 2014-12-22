@@ -15,9 +15,5 @@ var params = process.argv.slice(3);
 // Default to 'help' command
 if (!cmd) { cmd = 'help'; }
 
-// Check storage initialization
-if (cmd == 'init' || storage.isInitialized()) {
-    commands.run(cmd.toLowerCase(), params, storage);
-} else {
-    output.error('Not Initialized yet.')
-}
+// Run command
+commands.run(cmd.toLowerCase(), params, storage);
