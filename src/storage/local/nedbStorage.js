@@ -15,7 +15,6 @@ function GetDb(path) {
 var LocalStorage = function(dirname, filename) {
     this.dirname = dirname;
     this.filename = filename;
-    this.path = path.join(dirname, filename);
 }
 
 LocalStorage.prototype.isInitialized = function() {
@@ -23,15 +22,18 @@ LocalStorage.prototype.isInitialized = function() {
     var isInitialized = Boolean(dirPath);
     if (isInitialized) {
         output.debug('Directory(' + this.dirname + ') found at: ' + dirPath);
+        this.path = path.join(dirPath, this.filename);
         this.db = GetDb(this.path);
     }
     return isInitialized;
 };
 
 LocalStorage.prototype.init = function() {
-    var dirPath;
     try {
-        dirPath = common.createDir(this.dirname);
+        var dirPath = common.createDir(this.dirname);
+        this.path = path.join(dirPath, this.filename);
+        this.db = GetDb(this.path);
+        return dirPath;
     } catch (err) {
         if (err.code == 'EEXIST') { // Directory already exists
             throw new Error('This project has already been initialized before.');
@@ -39,8 +41,6 @@ LocalStorage.prototype.init = function() {
             throw err;
         }
     }
-    this.db = GetDb(this.path);
-    return dirPath;
 };
 
 LocalStorage.prototype.insert = function(item, callback) {
