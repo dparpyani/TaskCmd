@@ -32,10 +32,12 @@ LocalStorage.prototype.init = function() {
 };
 
 LocalStorage.prototype.db = function() {
+    if (this._db) { return this._db; }
     var dirpath = common.upwardSearch(this.dirname);
     var filepath = path.join(dirpath, this.filename);
     output.debug('Using database: ' + filepath);
-    return new DataStore({ filename: filepath, autoload: true });
+    this._db = new DataStore({ filename: filepath, autoload: true });
+    return this._db;
 };
 
 LocalStorage.prototype.insert = function(item, callback) {
