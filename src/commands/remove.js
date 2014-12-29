@@ -1,7 +1,11 @@
 var output = require('../output');
 
 module.exports.run = function(params, storage) {
-    storage.remove({ _id: params[0] }, {}, function (numRemoved) {
-        output.info(numRemoved.toString() + ' tasks were removed.');
+    params.forEach(function(id) {
+        storage.remove({_id: id}, {}, function (numRemoved) {
+            if (numRemoved == 1) {
+                output.info('Removed task with id: ' + id);
+            }
+        });
     });
 };
