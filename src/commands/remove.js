@@ -5,6 +5,8 @@ module.exports.run = function(params, storage) {
         storage.remove({_id: id}, {}, function (numRemoved) {
             if (numRemoved == 1) {
                 output.info('Removed task with id: ' + id);
+            } else {
+                output.warn('Could not remove task with id: ' + id);
             }
         });
     });
